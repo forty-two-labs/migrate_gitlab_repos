@@ -13,6 +13,8 @@ def bundle_existing_repos(project_name)
   Dir.chdir "existing_repos"
   system "git clone git@#{EXISTING_GITLAB}:#{GITLAB_NAMESPACE}/#{project_name}.git "
   Dir.chdir "#{project_name}"
+  system "git fetch --all"
+  system "git pull --all"
   system "git bundle create #{project_name}.bundle --all"
   Dir.chdir ".."
   Dir.chdir ".."
@@ -27,6 +29,7 @@ def create_new_repos_and_push_bundle(project_name)
   Dir.chdir "#{project_name}"
   system "git pull ../../existing_repos/#{project_name}/#{project_name}.bundle"
   system "git push origin master"
+  Dir.chdir ".."
   Dir.chdir ".."
 end
 
